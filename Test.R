@@ -118,7 +118,7 @@ plot(rotpcascores[,1], rotpcascores[,2], type="p", pch="o",
      xlab="Rotated Harmonic I", ylab="Rotated Harmonic II")
  
 
-ii.	Write an R Function to simulate a set of functional data using a self-selected procedure.
+# ii.	Write an R Function to simulate a set of functional data using a self-selected procedure.
 
 
 # To simulate functional Data, we want to project some random pairs {x_i,y_i}  
