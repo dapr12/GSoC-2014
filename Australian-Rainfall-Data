@@ -1,0 +1,99 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
+#include <utility>
+#include <vector>
+#include <pthread.h>
+#include <cstring>
+
+#define DEB(x) std::cerr<<"TaChIdOk: "<<#x<<":("<<x<<")"<<std::endl
+#include <typeinfo>
+#define T_TYPE(x) DEB(typeid(x).name())
+#define T_ERROR() std::cerr<<"TaChIdOk's error on"<<std::endl<<std::endl<<"\tFile: "<<std::endl<<std::endl<<"\t"<<__FILE__<<std::endl<<std::endl<<"\tLine: "<<std::endl<<std::endl<<"\t"<<__LINE__<<std::endl<<std::endl<<"\tFunction: "<<std::endl<<std::endl<<"\t"<<__PRETTY_FUNCTION__<<std::endl<<std::endl; getchar()
+#define T_ERROR2(x) throw ("Error at function "+string(__PRETTY_FUNCTION__)+": "+string(x))
+#define T_WARNING(x) cerr << (string("Warning at function ") + string(__PRETTY_FUNCTION__) + ": " + string(x))
+#define T_SUCCESS(x) cerr<<(string(__PRETTY_FUNCTION__)+string(x))<<endl
+
+int main(int argc, char *argv[])
+{
+ FILE *file_pt = fopen("Daily_Monthly_Precip","r");
+ FILE *file_output_pt = fopen("my_file.txt", "w");
+ if (file_pt)
+  {
+   if (file_output_pt)
+    {
+     int counter = 0;
+     char c[210];
+     do {
+      
+      // Read line
+      for (unsigned i = 0; i < 211; i++)
+       {
+        c[i] = getc(file_pt);
+        //DEB(c[i]); // Impime toda la linea
+       }
+      
+      // Decode
+      char stations_str[6];
+      sprintf(stations_str, "%c%c%c%c%c%c", c[2], c[3], c[4], c[5], c[6], c[7]);
+      //DEB(stations_str);
+      fprintf(file_output_pt, "%s ", stations_str);
+      
+      char year_str[3];
+      sprintf(year_str, "%c%c%c", c[8], c[9], c[10]);
+      //DEB(year_str);
+      fprintf(file_output_pt, "%s ", year_str);
+      
+      char month_str[2];
+      sprintf(month_str, "%c%c", c[11], c[12]);
+      //DEB(month_str);
+      fprintf(file_output_pt, "%s ", month_str);
+      
+      char record_type_str[1];
+      sprintf(record_type_str, "%c", c[13]);
+      //DEB(record_type_str);
+      fprintf(file_output_pt, "%s ", record_type_str);
+      
+      char monthly_total_str[5];
+      sprintf(monthly_total_str, "%c%c%c%c%c", c[17], c[18], c[19], c[20], c[21]);
+      //DEB(monthly_total_str);
+      fprintf(file_output_pt, "%s ", monthly_total_str);
+      
+      int idx = 24;
+      for (unsigned j = 0; j < 31; j++)
+       {
+        char data_day_str[5];
+        sprintf(data_day_str, "%c%c%c%c%c", c[idx], c[idx+1], c[idx+2], c[idx+3], c[idx+4]);
+        //DEB(data_day_str);
+        fprintf(file_output_pt, "%s ", data_day_str);
+        idx+=6;
+       }
+      
+      fprintf(file_output_pt, "\n");
+      
+      DEB(counter);
+      counter++;
+      
+     } while (counter < 227214);
+     
+     fclose(file_output_pt);
+     file_output_pt = 0;
+    }
+   else
+    {
+     T_ERROR();
+    }
+   
+   fclose(file_pt);
+   file_pt = 0;
+  }
+ else
+  {
+   T_ERROR();
+  }
+ 
+ return 1;
+}
