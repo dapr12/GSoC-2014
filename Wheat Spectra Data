@@ -1,0 +1,86 @@
+
+#Set Working Directory
+setwd("C:/Work")
+getwd() 
+
+Moist <- read.csv("moist.asc" ,header = FALSE, sep = "")
+Moist <- as.data.frame(Moist)
+plot(Moist$V1)
+
+Protein <- read.csv("protein.asc" ,header = FALSE, sep = "")
+Protein <- as.data.frame(Protein)
+plot(Protein$V1, type="b")
+
+whtspec <- read.csv("whtspec.asc" ,header = FALSE, sep = "")
+whtspec  <- as.data.frame(whtspec)
+matplot(whtspec, type="l" )
+
+whtdata <- matrix(0,100,528)
+
+for(i in 1:100)
+{
+ for(j in 1:528)
+	{ 
+		whtdata[i,j] <- whtspec[i,j]
+ 		}
+ }
+
+fdatime <- seq(0,100,len=100)
+fdarange <- c(0, 100)
+nbasis   <- 45 + 1
+norder   <-   4
+fdabasis <- create.bspline.basis(fdarange,nbasis,norder)
+lambda <- 1e-5 
+fdaPar <- fdPar(fdabasis,int2Lfd(2),lambda)
+fdafd <- smooth.basis(fdatime,whtdata,fdaPar)
+prec.fd <- fdafd$fd
+fd1 <- Data2fd(fdatime,whtdata,fdaPar)
+
+plot(fdafd$fd)
+
+wave.length <- seq(1, 701, by = 1)
+y <- as.numeric(Protein > median(Protein[ , 1]))
+
+whtspec.fdata <- fdata(mdata = whtspec, argvals = wave.length, names
+   = list(main = "Wheat data set", xlab = "Wave length (nm)", ylab =
+   "NIR spectra ( log(1/R) )"))
+
+First.Deriv<- fdata.deriv(whtspec.fdata, nderiv = 1)
+
+par(mfrow=c(1,2))
+plot(whtspec.fdata, col = y+1)
+plot(fdata.deriv(whtspec.fdata, nderiv = 1), col = y+1, main =
+   "Wheat data set. 1st derivative")
+
+#Second Derivative
+plot(fdata.deriv(whtspec.fdata, nderiv = 2), col = y+1, main=
+   "Wheat data set. 2nd derivative")
+
+
+First.Deriv<- fdata.deriv(whtspec.fdata, nderiv = 1)
+names(First.Deriv)
+First.Deriv$names
+First.Deriv$data
+Group1<-which(y==1)
+Group2<-which(y==0)
+
+
+par(mfrow=c(1,2))
+plot(First.Deriv$data[1,], type="n", xlim=c(), ylim=c(-0.005,0.015))
+abline(h=0)
+
+
+for ( i in 1:50)
+ { 
+   lines(First.Deriv$data[Group1[i],])
+}
+
+
+plot(First.Deriv$data[2,], type="n", xlim=c(), ylim=c(-0.005,0.015))
+abline(h=0)
+
+for ( i in 1:50)
+ { 
+   lines(First.Deriv$data[Group2[i],])
+}
+
