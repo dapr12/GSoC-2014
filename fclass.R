@@ -1,5 +1,5 @@
 
-rm(list=ls(all=TRUE))
+#rm(list=ls(all=TRUE))
 
 fclass<- function (mdata, argvals = NULL, rangeval = NULL, names = NULL, fdata2d = FALSE) 
 {
@@ -308,16 +308,16 @@ fclass<- function (mdata, argvals = NULL, rangeval = NULL, names = NULL, fdata2d
 
 
 
-a1<-seq(0,1,by=.01)
-a2=rnorm(length(a1),sd=0.2)
-f1<-(sin(2*pi*a1))+rnorm(length(a1),sd=0.2)
-nc<-10
-np<-length(f1)
-tt=seq(0,1,len=101)
-mdata<-matrix(NA,ncol=np,nrow=nc)
-for (i in 1:nc) mdata[i,]<- (sin(2*pi*a1))+rnorm(length(a1),sd=0.2)
-fdataobj1<-fclass(mdata,tt)
-fdataobj1
-fdataobj2<-fclass(mdata)
-fdataobj2
+#a1<-seq(0,1,by=.01)
+#a2=rnorm(length(a1),sd=0.2)
+#f1<-(sin(2*pi*a1))+rnorm(length(a1),sd=0.2)
+#nc<-10
+#np<-length(f1)
+#tt=seq(0,1,len=101)
+#mdata<-matrix(NA,ncol=np,nrow=nc)
+#for (i in 1:nc) mdata[i,]<- (sin(2*pi*a1))+rnorm(length(a1),sd=0.2)
+#fdataobj1<-fclass(mdata,tt)
+#fdataobj1
+#fdataobj2<-fclass(mdata)
+#fdataobj2
 
