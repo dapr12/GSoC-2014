@@ -317,6 +317,6 @@ fclass<- function (mdata, argvals = NULL, rangeval = NULL, names = NULL, fdata2d
 #mdata<-matrix(NA,ncol=np,nrow=nc)
 #for (i in 1:nc) mdata[i,]<- (sin(2*pi*a1))+rnorm(length(a1),sd=0.2)
 #fdataobj1<-fclass(mdata,tt)
-fdataobj1
-fdataobj2<-fclass(mdata)
-fdataobj2
+#fdataobj1
+#fdataobj2<-fclass(mdata)
+#fdataobj2
